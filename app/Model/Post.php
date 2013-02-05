@@ -7,6 +7,12 @@ App::uses('AppModel', 'Model');
  */
 class Post extends AppModel {
 
+	public $order = array('Post.id DESC');
+
+	public $actsAs = array('Search.Searchable');
+
+	public $filterArgs = array();
+
 /**
  * Validation rules
  *
