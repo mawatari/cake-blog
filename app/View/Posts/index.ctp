@@ -27,6 +27,7 @@
 			<fieldset>
 				<legend>検索</legend>
 				<?php echo $this->Form->input('author_id', array('label' => '作者名', 'class' => 'span12', 'empty' => true)); ?>
+				<?php echo $this->Form->input('title', array('label' => 'タイトル', 'class' => 'span12', 'placeholder' => 'タイトルを対象に検索')); ?>
 			</fieldset>
 			<?php echo $this->Form->end('検索'); ?>
 		</div>

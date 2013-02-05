@@ -13,6 +13,7 @@ class Post extends AppModel {
 
 	public $filterArgs = array(
 		'author_id' => array('type' => 'value'),
+		'title' => array('type' => 'like'),
 	);
 
 /**
