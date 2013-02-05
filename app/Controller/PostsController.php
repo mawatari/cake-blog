@@ -10,11 +10,11 @@ class PostsController extends AppController {
 	public $components = array('Search.Prg');
 
 	public $presetVars = array(
-		'author_id' => array('type' => 'checkbox'),
-		'keyword' => array('type' => 'value'),
-		'andor' => array('type' => 'value'),
-		'from' => array('type' => 'value'),
-		'to' => array('type' => 'value'),
+		'author_id' => array('type' => 'checkbox', 'empty' => true),
+		'keyword' => array('type' => 'value', 'empty' => true),
+		'andor' => array('type' => 'value', 'empty' => true),
+		'from' => array('type' => 'value', 'empty' => true),
+		'to' => array('type' => 'value', 'empty' => true),
 	);
 
 /**
