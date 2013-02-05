@@ -26,6 +26,7 @@
 			<?php echo $this->Form->create('Post', array('action' => 'index')); ?>
 			<fieldset>
 				<legend>検索</legend>
+				<?php echo $this->Form->input('author_id', array('label' => '作者名', 'class' => 'span12', 'empty' => true)); ?>
 			</fieldset>
 			<?php echo $this->Form->end('検索'); ?>
 		</div>

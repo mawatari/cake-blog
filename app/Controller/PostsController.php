@@ -18,6 +18,9 @@ class PostsController extends AppController {
  */
 	public function index() {
 		$this->Post->recursive = 0;
+		$authors = $this->Post->Author->find('list');
+		$this->set(compact('authors'));
+
 		$this->Prg->commonProcess();
 		$this->paginate = array(
 			'conditions' => $this->Post->parseCriteria($this->passedArgs),

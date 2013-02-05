@@ -11,7 +11,9 @@ class Post extends AppModel {
 
 	public $actsAs = array('Search.Searchable');
 
-	public $filterArgs = array();
+	public $filterArgs = array(
+		'author_id' => array('type' => 'value'),
+	);
 
 /**
  * Validation rules
