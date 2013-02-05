@@ -27,7 +27,17 @@
 			<fieldset>
 				<legend>検索</legend>
 				<?php echo $this->Form->input('author_id', array('label' => '作者名', 'class' => 'span12', 'empty' => true)); ?>
-				<?php echo $this->Form->input('keyword', array('label' => 'キーワード', 'class' => 'span12', 'placeholder' => 'タイトル、本文を対象に検索')); ?>
+				<div class="control-group">
+					<?php echo $this->Form->label('keyword', 'キーワード', array('class' => 'control-label')); ?>
+					<div class="controls">
+						<?php echo $this->Form->text('keyword', array('class' => 'span12', 'placeholder' => 'タイトル、本文を対象に検索')); ?>
+						<?php
+						$options = array('and' => 'AND', 'or' => 'OR');
+						$attributes = array('default' => 'and', 'class' => 'radio inline');
+						echo $this->Form->radio('andor', $options, $attributes);
+						?>
+					</div>
+				</div>
 				<div class="control-group">
 					<?php echo $this->Form->label('from', '作成期間', array('class' => 'control-label')); ?>
 					<div class="controls">

@@ -13,10 +13,24 @@ class Post extends AppModel {
 
 	public $filterArgs = array(
 		'author_id' => array('type' => 'value'),
-		'keyword' => array('type' => 'like', 'field' => array('Post.title', 'Post.body'), 'connectorAnd' => '+', 'connectorOr' => ','),
+		'word' => array('type' => 'like', 'field' => array('Post.title', 'Post.body'), 'connectorAnd' => '+', 'connectorOr' => ','),
 		'from' => array('type' => 'value', 'field' => 'Post.created >='),
 		'to' => array('type' => 'value', 'field' => 'Post.created <='),
 	);
+
+/**
+ * multipleKeywords method
+ *
+ * @param string $keyword Input value
+ * @param null $andor
+ * @internal param string $option Advanced search and/or
+ * @return Value for the search process
+ */
+	public function multipleKeywords($keyword, $andor = null) {
+		$connector = ($andor === 'or') ? ',' : '+';
+		$keyword = preg_replace('/\s+/', $connector, trim(mb_convert_kana($keyword, 's', 'UTF-8')));
+		return $keyword;
+	}
 
 /**
  * Validation rules

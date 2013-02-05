@@ -9,7 +9,13 @@ class PostsController extends AppController {
 
 	public $components = array('Search.Prg');
 
-	public $presetVars = true;
+	public $presetVars = array(
+		'author_id' => array('type' => 'value'),
+		'keyword' => array('type' => 'value'),
+		'andor' => array('type' => 'value'),
+		'from' => array('type' => 'value'),
+		'to' => array('type' => 'value'),
+	);
 
 /**
  * index method
@@ -22,8 +28,14 @@ class PostsController extends AppController {
 		$this->set(compact('authors'));
 
 		$this->Prg->commonProcess();
+		$req = $this->passedArgs;
+		if (!empty($this->request->data['Post']['keyword'])) {
+			$andor = !empty($this->request->data['Post']['andor']) ? $this->request->data['Post']['andor'] : null;
+			$word = $this->Post->multipleKeywords($this->request->data['Post']['keyword'], $andor);
+			$req = array_merge($req, array("word" => $word));
+		}
 		$this->paginate = array(
-			'conditions' => $this->Post->parseCriteria($this->passedArgs),
+			'conditions' => $this->Post->parseCriteria($req),
 		);
 		$this->set('posts', $this->paginate());
 	}
