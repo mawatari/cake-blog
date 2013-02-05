@@ -28,8 +28,55 @@
 				<legend>検索</legend>
 				<?php echo $this->Form->input('author_id', array('label' => '作者名', 'class' => 'span12', 'empty' => true)); ?>
 				<?php echo $this->Form->input('title', array('label' => 'タイトル', 'class' => 'span12', 'placeholder' => 'タイトルを対象に検索')); ?>
+				<div class="control-group">
+					<?php echo $this->Form->label('from', '作成期間', array('class' => 'control-label')); ?>
+					<div class="controls">
+						<?php echo $this->Form->text('from', array('class' => 'span6')); ?>
+						<?php echo $this->Form->text('to', array('class' => 'span6')); ?>
+					</div>
+				</div>
 			</fieldset>
 			<?php echo $this->Form->end('検索'); ?>
 		</div>
 	</div>
 </div>
+
+
+<?php
+$this->Html->css('http://code.jquery.com/ui/1.9.1/themes/base/jquery-ui.css', null, array('block' => 'css'));
+$this->Html->script(
+	array('http://code.jquery.com/ui/1.9.1/jquery-ui.js',
+		'http://ajax.googleapis.com/ajax/libs/jqueryui/1/i18n/jquery.ui.datepicker-ja.min.js'),
+	array('block' => 'script')
+);
+?>
+<?php $this->start('script'); ?>
+<script>
+	$(function() {
+		$("#PostFrom").datepicker({
+			defaultDate: "+1w",
+			changeMonth: false,
+			numberOfMonths: 2,
+			dateFormat: "yy-mm-dd",
+			showOtherMonths: true,
+			selectOtherMonths: true,
+			onClose: function(s) {
+				if (s) {
+					$("#PostTo").datepicker("option", "minDate", s).focus();
+				}
+			}
+		});
+		$("#PostTo").datepicker({
+			defaultDate: "+1w",
+			changeMonth: false,
+			numberOfMonths: 2,
+			dateFormat: "yy-mm-dd",
+			showOtherMonths: true,
+			selectOtherMonths: true,
+			onClose: function(s) {
+				$("#PostFrom").datepicker("option", "maxDate", s);
+			}
+		});
+	});
+</script>
+<?php $this->end(); ?>
