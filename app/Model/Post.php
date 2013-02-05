@@ -13,7 +13,7 @@ class Post extends AppModel {
 
 	public $filterArgs = array(
 		'author_id' => array('type' => 'value'),
-		'title' => array('type' => 'like', 'before' => false, 'after' => true),
+		'keyword' => array('type' => 'like', 'field' => array('Post.title', 'Post.body')),
 		'from' => array('type' => 'value', 'field' => 'Post.created >='),
 		'to' => array('type' => 'value', 'field' => 'Post.created <='),
 	);
