@@ -7,14 +7,18 @@ App::uses('AppController', 'Controller');
  */
 class PostsController extends AppController {
 
-	public $components = array('Search.Prg');
+	public $components = array('Search.Prg' => array(
+		'commonProcess' => array(
+			'paramType' => 'querystring',
+		)
+	));
 
 	public $presetVars = array(
-		'author_id' => array('type' => 'checkbox', 'empty' => true, 'encode' => true),
-		'keyword' => array('type' => 'value', 'empty' => true, 'encode' => true),
-		'andor' => array('type' => 'value', 'empty' => true, 'encode' => true),
-		'from' => array('type' => 'value', 'empty' => true, 'encode' => true),
-		'to' => array('type' => 'value', 'empty' => true, 'encode' => true),
+		'author_id' => array('type' => 'checkbox', 'empty' => true),
+		'keyword' => array('type' => 'value', 'empty' => true),
+		'andor' => array('type' => 'value', 'empty' => true),
+		'from' => array('type' => 'value', 'empty' => true),
+		'to' => array('type' => 'value', 'empty' => true),
 	);
 
 /**
@@ -27,18 +31,17 @@ class PostsController extends AppController {
 		$authors = $this->Post->Author->find('list');
 		$this->set(compact('authors'));
 
-		if (!empty($this->request->data['Post']['author_id']) and array_diff(array_keys($authors), $this->request->data['Post']['author_id']) == false) {
-			unset($this->request->data['Post']['author_id']);
-		}
 		$this->Prg->commonProcess();
-		$req = $this->passedArgs;
-		if (!empty($this->request->data['Post']['keyword'])) {
-			$andor = !empty($this->request->data['Post']['andor']) ? $this->request->data['Post']['andor'] : null;
-			$word = $this->Post->multipleKeywords($this->request->data['Post']['keyword'], $andor);
+		$req = $this->request->query;
+		if (!empty($this->request->query['keyword'])) {
+			$andor = !empty($this->request->query['andor']) ? $this->request->query['andor'] : null;
+			$word = $this->Post->multipleKeywords($this->request->query['keyword'], $andor);
 			$req = array_merge($req, array("word" => $word));
 		}
 		$this->paginate = array(
 			'conditions' => $this->Post->parseCriteria($req),
+			'paramType' => 'querystring',
+// 'limit' => 2,
 		);
 		$this->set('posts', $this->paginate());
 	}
