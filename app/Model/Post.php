@@ -12,7 +12,7 @@ class Post extends AppModel {
 	public $actsAs = array('Search.Searchable');
 
 	public $filterArgs = array(
-		'author_id' => array('type' => 'value'),
+		'author_id' => array('type' => 'subquery', 'method' => 'findByAuthors', 'field' => 'Post.author_id'),
 		'word' => array('type' => 'like', 'field' => array('Post.title', 'Post.body'), 'connectorAnd' => '+', 'connectorOr' => ','),
 		'from' => array('type' => 'value', 'field' => 'Post.created >='),
 		'to' => array('type' => 'value', 'field' => 'Post.created <='),
@@ -30,6 +30,22 @@ class Post extends AppModel {
 		$connector = ($andor === 'or') ? ',' : '+';
 		$keyword = preg_replace('/\s+/', $connector, trim(mb_convert_kana($keyword, 's', 'UTF-8')));
 		return $keyword;
+	}
+
+/**
+ * findByAuthors method
+ *
+ * @param array $data Data for a field.
+ * @param array $field Info for field.
+ * @return string Subquery
+ */
+	public function findByAuthors($data = array(), $field = array()) {
+		$this->Author->Behaviors->attach('Search.Searchable');
+		$query = $this->Author->getQuery('all', array(
+			'conditions' => array('Author.id' => explode('|', $data[$field['name']])),
+			'fields' => array('Author.id'),
+		));
+		return $query;
 	}
 
 /**

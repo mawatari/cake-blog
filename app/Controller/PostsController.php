@@ -10,7 +10,7 @@ class PostsController extends AppController {
 	public $components = array('Search.Prg');
 
 	public $presetVars = array(
-		'author_id' => array('type' => 'value'),
+		'author_id' => array('type' => 'checkbox'),
 		'keyword' => array('type' => 'value'),
 		'andor' => array('type' => 'value'),
 		'from' => array('type' => 'value'),
@@ -27,6 +27,9 @@ class PostsController extends AppController {
 		$authors = $this->Post->Author->find('list');
 		$this->set(compact('authors'));
 
+		if (!empty($this->request->data['Post']['author_id']) and array_diff(array_keys($authors), $this->request->data['Post']['author_id']) == false) {
+			unset($this->request->data['Post']['author_id']);
+		}
 		$this->Prg->commonProcess();
 		$req = $this->passedArgs;
 		if (!empty($this->request->data['Post']['keyword'])) {

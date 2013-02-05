@@ -26,7 +26,7 @@
 			<?php echo $this->Form->create('Post', array('action' => 'index')); ?>
 			<fieldset>
 				<legend>検索</legend>
-				<?php echo $this->Form->input('author_id', array('label' => '作者名', 'class' => 'span12', 'empty' => true)); ?>
+				<?php echo $this->Form->input('author_id', array('label' => '作者名', 'class' => 'span12', 'multiple' => 'checkbox', 'default' => array_keys($authors))); ?>
 				<div class="control-group">
 					<?php echo $this->Form->label('keyword', 'キーワード', array('class' => 'control-label')); ?>
 					<div class="controls">
